@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mobile Team Project</string>
+    <string name="drawer_opened">Open</string>
+    <string name="drawer_closed">Close</string>
+</resources>

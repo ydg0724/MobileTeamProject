@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="Todo"
+        android:id="@+id/todomenu"/>
+    <item
+        android:title="명언"
+        android:id="@+id/phrasemenu"/>
+    <item
+        android:title="공부"
+        android:id="@+id/studymenu"/>
+    <item
+        android:title="운동"
+        android:id="@+id/sportmenu"/>
+    <item
+        android:title="독서"
+        android:id="@+id/readmenu"/>
+</menu>
