@@ -40,10 +40,8 @@ class MainActivity : AppCompatActivity() {
             db.close()
         }
 
-        val datas = mutableListOf<String>()
-
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = ResultAdapter(datas)
+        val adapter = ResultAdapter(todoDatas)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(DividerItemDecoration(this,
             LinearLayoutManager.VERTICAL))
@@ -101,14 +99,16 @@ class MainActivity : AppCompatActivity() {
 class ResultHolder(val binding: TodoMainBinding): RecyclerView.ViewHolder(binding.root)
 
 class ResultAdapter(val todoDatas: MutableList<String>):
-        RecyclerView.Adapter<ResultHolder>(){
+    RecyclerView.Adapter<ResultHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultHolder =
         ResultHolder(TodoMainBinding.inflate(LayoutInflater.from(parent.context),
             parent, false))
 
     override fun getItemCount(): Int = todoDatas.size + 1
     override fun onBindViewHolder(holder: ResultHolder, position: Int) {
-        if (position != 0) {
+        if (position == 0) {
+            holder.binding.todoData.text = "Hello"
+        } else {
             holder.binding.todoData.text = todoDatas[position]
         }
         holder.binding.todoDelete.setOnClickListener {
