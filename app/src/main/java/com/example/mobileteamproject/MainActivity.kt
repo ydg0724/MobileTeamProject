@@ -109,7 +109,7 @@ class ResultAdapter(val todoDatas: MutableList<String>):
         if (position == 0) {
             holder.binding.todoData.text = "Hello"
         } else {
-            holder.binding.todoData.text = todoDatas[position]
+            holder.binding.todoData.text = todoDatas[position - 1]
         }
         holder.binding.todoDelete.setOnClickListener {
             val db = openOrCreateDatabase("tododb", null)
