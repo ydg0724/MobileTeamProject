@@ -61,8 +61,8 @@ class StudyActivity : AppCompatActivity() {
             startActivity(Intent(this, PhraseActivity::class.java))
             binding.drawer.close()
         }
-        binding.goToSport.setOnClickListener {
-            startActivity(Intent(this, SportActivity::class.java))
+        binding.goToStopwatch.setOnClickListener {
+            startActivity(Intent(this, StudyStopWatch::class.java))
             binding.drawer.close()
         }
         binding.gotoPhrase.setOnClickListener {
