@@ -11,7 +11,7 @@ import com.example.mobileteamproject.databinding.ActivityStudyStopWatchBinding
 
 class StudyStopWatch : AppCompatActivity() {
     lateinit var binding: ActivityStudyStopWatchBinding
-    lateinit var toggle: ActionBarDrawerToggle
+//    lateinit var toggle: ActionBarDrawerToggle
     var initTime = 0L
     var pauseTime = 0L
     var totalTime = 0L
@@ -21,32 +21,31 @@ class StudyStopWatch : AppCompatActivity() {
         setContentView(binding.root)
         title = "공부"
 
-        toggle = ActionBarDrawerToggle(this, binding.drawer,
-            R.string.drawer_opened, R.string.drawer_closed)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toggle.syncState()
-
-        binding.menu1.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            binding.drawer.close()
-        }
-        binding.menu2.setOnClickListener {
-            startActivity(Intent(this, PhraseActivity::class.java))
-            binding.drawer.close()
-        }
-        binding.menu3.setOnClickListener {
-            startActivity(Intent(this, StudyActivity::class.java))
-            binding.drawer.close()
-        }
-        binding.menu4.setOnClickListener {
-            startActivity(Intent(this, SportActivity::class.java))
-            binding.drawer.close()
-        }
-        binding.menu5.setOnClickListener {
-            startActivity(Intent(this, ReadActivity::class.java))
-            binding.drawer.close()
-
-        }
+//        toggle = ActionBarDrawerToggle(this, binding.drawer,
+//            R.string.drawer_opened, R.string.drawer_closed)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        toggle.syncState()
+//
+//        binding.menu1.setOnClickListener {
+//            startActivity(Intent(this, MainActivity::class.java))
+//            binding.drawer.close()
+//        }
+//        binding.menu2.setOnClickListener {
+//            startActivity(Intent(this, PhraseActivity::class.java))
+//            binding.drawer.close()
+//        }
+//        binding.menu3.setOnClickListener {
+//            startActivity(Intent(this, StudyActivity::class.java))
+//            binding.drawer.close()
+//        }
+//        binding.menu4.setOnClickListener {
+//            startActivity(Intent(this, SportActivity::class.java))
+//            binding.drawer.close()
+//        }
+//        binding.menu5.setOnClickListener {
+//            startActivity(Intent(this, ReadActivity::class.java))
+//            binding.drawer.close()
+//        }
         //start버튼
         binding.startBtn.setOnClickListener {
             binding.stopwatch.base = elapsedRealtime() + pauseTime  //다시 시작하는 시간
@@ -88,10 +87,10 @@ class StudyStopWatch : AppCompatActivity() {
 
 
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)){
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (toggle.onOptionsItemSelected(item)){
+//            return true
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 }
