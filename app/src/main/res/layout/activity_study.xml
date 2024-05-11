@@ -93,30 +93,31 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
-                android:id="@+id/BtnCollect">
+                android:id="@+id/BtnCollect"
+                android:gravity="center_vertical">
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
-                    android:text="스톱   워치"
+                    android:text="스톱\n워치"
                     android:id="@+id/goToStopwatch"/>
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:text="독서"
                     android:id="@+id/goToRead"
                     android:layout_marginHorizontal="10dp"/>
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:text="Todo"
                     android:id="@+id/goToTodo"
                     android:layout_marginRight="10dp"/>
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:text="명언"
                     android:id="@+id/gotoPhrase"/>
@@ -125,7 +126,7 @@
             <com.github.mikephil.charting.charts.BarChart
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="60dp"
                 android:id="@+id/studyWeekTime"/>
 
         </RelativeLayout>
