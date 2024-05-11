@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         title = "Title"
 
+        //database 생성 혹은 읽기
         val path: File = getDatabasePath("tododb")
         if (path.exists().not()) {
             val db = openOrCreateDatabase("tododb", Context.MODE_PRIVATE, null)
@@ -40,21 +42,26 @@ class MainActivity : AppCompatActivity() {
             db.close()
         }
 
+        //리사이클러뷰 어댑터 바인딩
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = ResultAdapter(todoDatas)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(DividerItemDecoration(this,
             LinearLayoutManager.VERTICAL))
+        binding.recyclerView.visibility = View.INVISIBLE
 
+        //db 열고 데이터 읽기
         val db = openOrCreateDatabase("tododb", Context.MODE_PRIVATE, null)
         val cursor = db.rawQuery("select data from TODO_TB", null)
         todoDatas.clear()
         while (cursor.moveToNext()) {
+            binding.recyclerView.visibility = View.VISIBLE
             todoDatas.add(cursor.getString(0))
         }
         db.close()
         adapter.notifyDataSetChanged()
 
+        //왼쪽 위 툴 메뉴바 바인딩, 이벤트
         toggle = ActionBarDrawerToggle(this, binding.drawer,
             R.string.drawer_opened, R.string.drawer_closed)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -85,7 +92,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddActivity::class.java))
             binding.drawer.close()
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -96,6 +102,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+//리사이클러뷰 어댑터
 class ResultHolder(val binding: TodoMainBinding): RecyclerView.ViewHolder(binding.root)
 
 class ResultAdapter(val todoDatas: MutableList<String>):
@@ -104,18 +111,14 @@ class ResultAdapter(val todoDatas: MutableList<String>):
         ResultHolder(TodoMainBinding.inflate(LayoutInflater.from(parent.context),
             parent, false))
 
-    override fun getItemCount(): Int = todoDatas.size + 1
+    override fun getItemCount(): Int = todoDatas.size
     override fun onBindViewHolder(holder: ResultHolder, position: Int) {
-        if (position == 0) {
-            holder.binding.todoData.text = "Hello"
-        } else {
-            holder.binding.todoData.text = todoDatas[position - 1]
-        }
-        holder.binding.todoDelete.setOnClickListener {
-            val db = openOrCreateDatabase("tododb", null)
-            db.execSQL("delete from TODO_TB where data = ?",
-                arrayOf(holder.binding.todoData.text.toString()))
-            db.close()
-        }
+        holder.binding.todoData.text = todoDatas[position]
+//        holder.binding.todoDelete.setOnClickListener {
+//            val db = openOrCreateDatabase("tododb", null)
+//            db.execSQL("delete from TODO_TB where data = ?",
+//                arrayOf(holder.binding.todoData.text.toString()))
+//            db.close()
+//        }
     }
 }

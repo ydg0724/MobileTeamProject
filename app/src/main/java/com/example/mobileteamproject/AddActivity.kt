@@ -29,6 +29,7 @@ class AddActivity : AppCompatActivity() {
 //            intent.putExtra("data", binding.editview.text.toString())
 //            setResult(RESULT_OK, intent)
             finish()
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 }
