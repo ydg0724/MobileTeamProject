@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileteamproject.databinding.ActivityMainBinding
 import com.example.mobileteamproject.databinding.TodoMainBinding
 import java.io.File
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -48,14 +49,12 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(DividerItemDecoration(this,
             LinearLayoutManager.VERTICAL))
-        binding.recyclerView.visibility = View.INVISIBLE
 
         //db 열고 데이터 읽기
         val db = openOrCreateDatabase("tododb", Context.MODE_PRIVATE, null)
         val cursor = db.rawQuery("select data from TODO_TB", null)
         todoDatas.clear()
         while (cursor.moveToNext()) {
-            binding.recyclerView.visibility = View.VISIBLE
             todoDatas.add(cursor.getString(0))
         }
         db.close()
@@ -92,6 +91,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddActivity::class.java))
             binding.drawer.close()
         }
+
+//        thread {
+//
+//            runOnUiThread {
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivityForResult(intent, 10)
+//            }
+//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -100,6 +107,16 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == 10 && resultCode == Activity.RESULT_OK) {
+//            val db = openOrCreateDatabase("tododb", null)
+//            db.execSQL("delete from TODO_TB where data = ?",
+//                arrayOf(data?.getStringExtra("data")))
+//            db.close()
+//        }
+//    }
 }
 
 //리사이클러뷰 어댑터
@@ -114,11 +131,16 @@ class ResultAdapter(val todoDatas: MutableList<String>):
     override fun getItemCount(): Int = todoDatas.size
     override fun onBindViewHolder(holder: ResultHolder, position: Int) {
         holder.binding.todoData.text = todoDatas[position]
-//        holder.binding.todoDelete.setOnClickListener {
+        holder.binding.todoDelete.setOnClickListener {
 //            val db = openOrCreateDatabase("tododb", null)
 //            db.execSQL("delete from TODO_TB where data = ?",
 //                arrayOf(holder.binding.todoData.text.toString()))
 //            db.close()
+            val intent = Intent()
+        }
+//        holder.binding.root.setOnClickListener {
+//            val intent = Intent()
+//            intent.putExtra("data", todoDatas[position])
 //        }
     }
 }
