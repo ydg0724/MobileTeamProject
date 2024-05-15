@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileteamproject.databinding.ActivityReadBinding
+import com.example.mobileteamproject.databinding.ListReadBinding
 import com.example.mobileteamproject.databinding.PageReadBinding
 import com.example.mobileteamproject.databinding.TodoMainBinding
 import java.io.File
@@ -49,6 +50,21 @@ class ReadActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        adapter.listItemClickListenerFunc(object: SetOnClickListenerInterfaceRead {
+            override fun listItemClickListener(itemData: String, binding: PageReadBinding) {
+                val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
+                db.execSQL("delete from PAGE_TB where title = ?",
+                    arrayOf(itemData))
+                val cursor = db.rawQuery("select title, page from PAGE_TB", null)
+                titles.clear()
+                pages.clear()
+                while (cursor.moveToNext()) {
+                    titles.add(cursor.getString(0))
+                    pages.add(cursor.getString(1))
+                }
+                adapter.notifyDataSetChanged()
+            }
+        })
 
         //db 열고 데이터 읽기
         val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
@@ -131,10 +147,19 @@ class ResultAdapterRead(val titles: MutableList<String>, val pages: MutableList<
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultHolderRead =
         ResultHolderRead(PageReadBinding.inflate(LayoutInflater.from(parent.context),
             parent, false))
-
+    var onClickListener: SetOnClickListenerInterfaceRead? = null
+    fun listItemClickListenerFunc(pOnClick: SetOnClickListenerInterfaceRead) {
+        this.onClickListener = pOnClick
+    }
     override fun getItemCount(): Int = titles.size
     override fun onBindViewHolder(holder: ResultHolderRead, position: Int) {
         holder.binding.title.text = titles[position]
         holder.binding.page.text = pages[position]
+        holder.binding.deleteBtn.setOnClickListener {
+            onClickListener?.listItemClickListener(titles[position], holder.binding)
+        }
     }
+}
+interface SetOnClickListenerInterfaceRead {
+    fun listItemClickListener(itemData: String, binding: PageReadBinding)
 }

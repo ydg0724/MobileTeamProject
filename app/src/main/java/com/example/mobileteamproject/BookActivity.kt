@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileteamproject.databinding.ActivityBookBinding
 import com.example.mobileteamproject.databinding.ListReadBinding
 import com.example.mobileteamproject.databinding.PageReadBinding
+import com.example.mobileteamproject.databinding.TodoMainBinding
 import java.io.File
 
 class BookActivity : AppCompatActivity() {
@@ -53,9 +54,16 @@ class ResultAdapterBook(val titles: MutableList<String>):
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultHolderBook =
         ResultHolderBook(ListReadBinding.inflate(LayoutInflater.from(parent.context),
             parent, false))
-
+    var onClickListener: SetOnClickListenerInterfaceBook? = null
+    fun listItemClickListenerFunc(pOnClick: SetOnClickListenerInterfaceBook) {
+        this.onClickListener = pOnClick
+    }
     override fun getItemCount(): Int = titles.size
     override fun onBindViewHolder(holder: ResultHolderBook, position: Int) {
         holder.binding.title.text = titles[position]
     }
+}
+
+interface SetOnClickListenerInterfaceBook {
+    fun listItemClickListener(itemData: String, binding: ListReadBinding)
 }
