@@ -3,8 +3,11 @@ package com.example.mobileteamproject
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.openOrCreateDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import android.os.Bundle
+import android.service.carrier.CarrierMessagingService.ResultCallback
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -17,6 +20,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,6 +53,20 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(DividerItemDecoration(this,
             LinearLayoutManager.VERTICAL))
+        adapter.listItemClickListenerFunc(object: SetOnClickListenerInterface {
+            override fun listItemClickListener(itemData: String, binding: TodoMainBinding) {
+                val db = openOrCreateDatabase("tododb", Context.MODE_PRIVATE, null)
+                db.execSQL("delete from TODO_TB where data = ?",
+                    arrayOf(itemData))
+                val cursor = db.rawQuery("select data from TODO_TB", null)
+                todoDatas.clear()
+                while (cursor.moveToNext()) {
+                    todoDatas.add(cursor.getString(0))
+                }
+                db.close()
+                adapter.notifyDataSetChanged()
+            }
+        })
 
         //db 열고 데이터 읽기
         val db = openOrCreateDatabase("tododb", Context.MODE_PRIVATE, null)
@@ -58,7 +76,6 @@ class MainActivity : AppCompatActivity() {
             todoDatas.add(cursor.getString(0))
         }
         db.close()
-        adapter.notifyDataSetChanged()
 
         //왼쪽 위 툴 메뉴바 바인딩, 이벤트
         toggle = ActionBarDrawerToggle(this, binding.drawer,
@@ -91,14 +108,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddActivity::class.java))
             binding.drawer.close()
         }
-
-//        thread {
-//
-//            runOnUiThread {
-//                val intent = Intent(this, MainActivity::class.java)
-//                startActivityForResult(intent, 10)
-//            }
-//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -107,16 +116,6 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 10 && resultCode == Activity.RESULT_OK) {
-//            val db = openOrCreateDatabase("tododb", null)
-//            db.execSQL("delete from TODO_TB where data = ?",
-//                arrayOf(data?.getStringExtra("data")))
-//            db.close()
-//        }
-//    }
 }
 
 //리사이클러뷰 어댑터
@@ -127,20 +126,20 @@ class ResultAdapter(val todoDatas: MutableList<String>):
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultHolder =
         ResultHolder(TodoMainBinding.inflate(LayoutInflater.from(parent.context),
             parent, false))
-
+    var onClickListener: SetOnClickListenerInterface? = null
+    fun listItemClickListenerFunc(pOnClick: SetOnClickListenerInterface) {
+        this.onClickListener = pOnClick
+    }
     override fun getItemCount(): Int = todoDatas.size
     override fun onBindViewHolder(holder: ResultHolder, position: Int) {
         holder.binding.todoData.text = todoDatas[position]
         holder.binding.todoDelete.setOnClickListener {
-//            val db = openOrCreateDatabase("tododb", null)
-//            db.execSQL("delete from TODO_TB where data = ?",
-//                arrayOf(holder.binding.todoData.text.toString()))
-//            db.close()
-            val intent = Intent()
+            onClickListener?.listItemClickListener(todoDatas[position], holder.binding)
         }
-//        holder.binding.root.setOnClickListener {
-//            val intent = Intent()
-//            intent.putExtra("data", todoDatas[position])
-//        }
     }
 }
+
+interface SetOnClickListenerInterface {
+    fun listItemClickListener(itemData: String, binding: TodoMainBinding)
+}
+
