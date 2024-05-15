@@ -13,9 +13,13 @@
         android:theme="@style/Theme.MobileTeamProject"
         tools:targetApi="31">
         <activity
+            android:name=".StatisticsActivity"
+            android:parentActivityName=".StudyActivity"
+            android:exported="false" />
+        <activity
             android:name=".BookActivity"
             android:exported="false"
-            android:parentActivityName=".ReadActivity"/>
+            android:parentActivityName=".ReadActivity" />
         <activity
             android:name=".StudyStopWatch"
             android:exported="false"

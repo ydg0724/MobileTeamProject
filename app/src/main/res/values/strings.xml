@@ -2,4 +2,6 @@
     <string name="app_name">Mobile Team Project</string>
     <string name="drawer_opened">Open</string>
     <string name="drawer_closed">Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

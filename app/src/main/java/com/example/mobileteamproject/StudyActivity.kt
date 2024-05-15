@@ -57,8 +57,8 @@ class StudyActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             binding.drawer.close()
         }
-        binding.gotoPhrase.setOnClickListener {
-            startActivity(Intent(this, PhraseActivity::class.java))
+        binding.goToStatistics.setOnClickListener {
+            startActivity(Intent(this, StatisticsActivity::class.java))
             binding.drawer.close()
         }
         binding.goToStopwatch.setOnClickListener {
