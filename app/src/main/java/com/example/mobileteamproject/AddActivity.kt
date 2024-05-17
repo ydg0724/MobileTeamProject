@@ -11,12 +11,11 @@ import com.example.mobileteamproject.databinding.ActivityAddBinding
 import java.io.File
 
 class AddActivity : AppCompatActivity() {
-    lateinit var binding: ActivityAddBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddBinding.inflate(layoutInflater)
+        val binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "Add Todo"
+        title = "Add Todos"
 
         val path: File = getDatabasePath("tododb")
 
@@ -25,9 +24,6 @@ class AddActivity : AppCompatActivity() {
             db.execSQL("insert into TODO_TB(data) values(?)",
                 arrayOf(binding.editview.text.toString()))
             db.close()
-//            val intent = Intent()
-//            intent.putExtra("data", binding.editview.text.toString())
-//            setResult(RESULT_OK, intent)
             finish()
             startActivity(Intent(this, MainActivity::class.java))
         }

@@ -9,6 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/title"
+        android:text="빌리 밀리건"
         android:textSize="20dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_weight="1"/>
+    <Button
+        android:id="@+id/deleteBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:text="X"
+        android:textSize="15dp"
+        android:layout_marginRight="5dp"/>
 </LinearLayout>

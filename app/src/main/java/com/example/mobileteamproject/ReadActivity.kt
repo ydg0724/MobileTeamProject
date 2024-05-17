@@ -40,7 +40,7 @@ class ReadActivity : AppCompatActivity() {
         if (path.exists().not()) {
             val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
             db.execSQL("create table PAGE_TB (_id integer primary key autoincrement, title text not null, page text)")
-            db.execSQL("create table BOOK_TB (_id integer primary key autoincrement, title text not null, rate integer, note text)")
+            db.execSQL("create table BOOK_TB (_id integer primary key autoincrement, title text not null, rate float, note text)")
             db.close()
         }
 
@@ -62,6 +62,7 @@ class ReadActivity : AppCompatActivity() {
                     titles.add(cursor.getString(0))
                     pages.add(cursor.getString(1))
                 }
+                db.close()
                 adapter.notifyDataSetChanged()
             }
         })
