@@ -51,7 +51,7 @@ class BookNoteActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener {
             if (binding.button.text.toString().equals("Edit")) {
-                binding.button.text = "Save"
+                binding.button.text = "OK"
                 val data = getNoteFromDb()
                 val fragment = EditFragment()
                 setDataAtFragment(fragment, data)

@@ -76,6 +76,34 @@ class BookActivity : AppCompatActivity() {
                 false -> binding.addBtn.extend()
             }
         }
+
+        binding.showBtn.isEnabled = false
+
+        binding.searchBtn.setOnClickListener {
+            val data = binding.editview.text.toString()
+            val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
+            val cursor = db.rawQuery("select title from BOOK_TB where title = '${data}'", null)
+            titles.clear()
+            while (cursor.moveToNext()) {
+                titles.add(cursor.getString(0))
+            }
+            db.close()
+            adapter.notifyDataSetChanged()
+            binding.showBtn.isEnabled = true
+        }
+
+        binding.showBtn.setOnClickListener {
+            val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
+            val cursor = db.rawQuery("select title from BOOK_TB", null)
+            titles.clear()
+            while (cursor.moveToNext()) {
+                titles.add(cursor.getString(0))
+            }
+            db.close()
+            adapter.notifyDataSetChanged()
+            binding.editview.text = null
+            binding.showBtn.isEnabled = false
+        }
     }
 }
 
