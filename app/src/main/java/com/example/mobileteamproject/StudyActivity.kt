@@ -66,7 +66,7 @@ class StudyActivity : AppCompatActivity() {
             binding.drawer.close()
         }
         binding.gotoPhrase.setOnClickListener {
-            startActivity(Intent(this, ReadActivity::class.java))
+            startActivity(Intent(this, PhraseActivity::class.java))
             binding.drawer.close()
         }
         initBarChart(binding.studyWeekTime) //그래프 기본설정
