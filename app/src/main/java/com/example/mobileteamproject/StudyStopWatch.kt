@@ -23,6 +23,9 @@ class StudyStopWatch : AppCompatActivity() {
 
         val path: File = getDatabasePath("studydb")
 
+        val db = openOrCreateDatabase("studydb",Context.MODE_PRIVATE, null)
+
+
         //start버튼
         binding.startBtn.setOnClickListener {
             binding.stopwatch.base = elapsedRealtime() + pauseTime  //다시 시작하는 시간
@@ -61,7 +64,7 @@ class StudyStopWatch : AppCompatActivity() {
             binding.stopBtn.isEnabled = false
             binding.resetBtn.isEnabled = false
 
-            val db = openOrCreateDatabase("studydb",Context.MODE_PRIVATE, null)
+
 
             val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
             val date = dateFormat.format(java.util.Date())
@@ -73,15 +76,15 @@ class StudyStopWatch : AppCompatActivity() {
             val minutes = tmpTime / (1000 * 60) % 60
             val seconds = (tmpTime / 1000) % 60
             // 변환된 시간을 HH:mm:ss 형식의 문자열로 포맷
-            val formattedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+            val realTime =  hours*60.0+ minutes+ seconds/60.0
 
             val cursor = db.rawQuery("Select COUNT(*) FROM STUDY_TB WHERE DATE = ?", arrayOf(date))
             cursor.moveToFirst()
             //이미 오늘 등록했으면
             if (cursor.getInt(0)>0)
-                db.execSQL("UPDATE STUDY_TB SET STUDYTIME = ? WHERE DATE = ?", arrayOf(formattedTime,date))
+                db.execSQL("UPDATE STUDY_TB SET STUDYTIME = ? WHERE DATE = ?", arrayOf(realTime,date))
             else    //없으면
-                db.execSQL("INSERT INTO STUDY_TB (DATE,STUDYTIME) VALUES (?,?)", arrayOf(date,formattedTime))
+                db.execSQL("INSERT INTO STUDY_TB (DATE,STUDYTIME) VALUES (?,?)", arrayOf(date,realTime))
 
             cursor.close()
             db.close()
