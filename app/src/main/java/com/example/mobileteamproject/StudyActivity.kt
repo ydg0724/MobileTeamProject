@@ -89,7 +89,7 @@ class StudyActivity : AppCompatActivity() {
             val db = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
             db.execSQL(
                 "create table STUDY_TB(_id integer primary key autoincrement," +
-                        " DATE text not null, STUDYTIME text not null )"
+                        " DATE text not null, STUDYTIME float not null )"
             )
             db.close()
         }
@@ -101,7 +101,7 @@ class StudyActivity : AppCompatActivity() {
             val startDate = LocalDate.of(2024, 1, 1)
             val endDate = LocalDate.of(2024, 5, 18)
             val dateList = mutableListOf<String>()
-            val studyTimeList = mutableListOf<String>()
+            val studyTimeList = mutableListOf<Double>()
 
             val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             var currentDate = startDate
@@ -114,7 +114,7 @@ class StudyActivity : AppCompatActivity() {
                 val hours = Random.nextInt(1, 5)
                 val minutes = Random.nextInt(0, 60)
                 val seconds = Random.nextInt(0, 60)
-                studyTimeList.add(String.format("%02d:%02d:%02d", hours, minutes, seconds))
+                studyTimeList.add(hours * 60.0 + minutes + (seconds/60.0))
 
                 // 다음 날짜로
                 currentDate = currentDate.plusDays(1)
@@ -151,12 +151,12 @@ class StudyActivity : AppCompatActivity() {
         val cursor = db.rawQuery(query,null)
 
         val dateList = mutableListOf<String>()
-        val studyTimeList = mutableListOf<String>()
+        val studyTimeList = mutableListOf<Double>()
         try{
             if (cursor.moveToFirst()){
                 do{
                     val date = cursor.getString(cursor.getColumnIndex("DATE"))
-                    val studytime = cursor.getString(cursor.getColumnIndex("STUDYTIME"))
+                    val studytime = cursor.getDouble(cursor.getColumnIndex("STUDYTIME"))
                     dateList.add(date)
                     studyTimeList.add(studytime)
                 }while(cursor.moveToNext())
@@ -173,7 +173,7 @@ class StudyActivity : AppCompatActivity() {
         setupChart(binding.studyWeekTime,dateList,studyTimeList)   //그래프 데이터세팅
     }
     //막대 그래프
-    private fun setupChart(barChart: BarChart, dateList: List<String>, studyTimeList: List<String>){
+    private fun setupChart(barChart: BarChart, dateList: List<String>, studyTimeList: MutableList<Double>){
         
         //줌인, 줌아웃 설정
         barChart.setScaleEnabled(false)
@@ -183,13 +183,7 @@ class StudyActivity : AppCompatActivity() {
 
         //데이터 삽입
         for(i in dateList.indices){
-            //시:분:초를
-            val parts = studyTimeList[i].split(":")
-            val hours = parts[0].toInt()
-            val minutes = parts[1].toInt()
-            val seconds = parts[2].toInt()
-            val lastStudyTime = hours * 60f + minutes + seconds / 60f
-            val entry = BarEntry(i.toFloat() + 1f, lastStudyTime)
+            val entry = BarEntry(i.toFloat() + 1f, studyTimeList[i].toFloat())
             valueList.add(entry)
         }
 
@@ -206,7 +200,7 @@ class StudyActivity : AppCompatActivity() {
 
         // Y축에 시간 포맷터 적용
         barChart.axisLeft.valueFormatter = TimeValueFormatter()
-        barChart.axisRight.valueFormatter = TimeValueFormatter() // 오른쪽 Y축 비활성화
+        barChart.axisRight.valueFormatter = TimeValueFormatter()
         barChart.invalidate()
 
     }
