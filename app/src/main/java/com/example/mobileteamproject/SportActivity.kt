@@ -10,11 +10,31 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.example.mobileteamproject.databinding.ActivitySportBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SportActivity : AppCompatActivity() {
     lateinit var binding: ActivitySportBinding
     lateinit var toggle: ActionBarDrawerToggle
+    val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.menu_timer -> {
+                replaceFragment(TimerFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.menu_home -> {
+                replaceFragment(HomeFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.menu_calendar -> {
+                replaceFragment(CalendarFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySportBinding.inflate(layoutInflater)
@@ -45,6 +65,14 @@ class SportActivity : AppCompatActivity() {
             startActivity(Intent(this, ReadActivity::class.java))
             binding.drawer.close()
         }
+
+        // Set up the bottom navigation view
+        val navView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        // Set the initial fragment
+        replaceFragment(HomeFragment())
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -53,4 +81,11 @@ class SportActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+    }
+
 }

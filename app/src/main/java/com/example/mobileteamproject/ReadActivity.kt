@@ -33,7 +33,7 @@ class ReadActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityReadBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "독서"
+        title = "책갈피"
 
         //database 생성 혹은 읽기
         val path: File = getDatabasePath("readdb")

@@ -16,7 +16,7 @@ class AddBookActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityAddBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "Add Books"
+        title = "책 추가"
 
         val path: File = getDatabasePath("readdb")
 

@@ -9,7 +9,7 @@
         android:layout_margin="10dp"
         android:textSize="20dp"
         android:id="@+id/editview"
-        android:hint="책 입력"/>
+        android:hint="제목을 입력하세요"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

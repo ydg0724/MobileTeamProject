@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "Title"
+        title = "Every Note"
 
         //database 생성 혹은 읽기
         val path: File = getDatabasePath("tododb")
@@ -104,9 +104,15 @@ class MainActivity : AppCompatActivity() {
             binding.drawer.close()
         }
 
-        binding.addbtn.setOnClickListener {
-            startActivity(Intent(this, AddActivity::class.java))
-            binding.drawer.close()
+        binding.addBtn.shrink()
+        binding.addBtn.setOnClickListener {
+            when (binding.addBtn.isExtended) {
+                true -> {
+                    binding.addBtn.shrink()
+                    startActivity(Intent(this, AddActivity::class.java))
+                }
+                false -> binding.addBtn.extend()
+            }
         }
     }
 

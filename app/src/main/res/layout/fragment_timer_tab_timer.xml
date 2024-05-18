@@ -1,20 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/timerTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="40dp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:textSize="70dp"
         android:text="00:00:00" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/timerTextView"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <Button
+            android:id="@+id/oneMinuteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1분" />
+
+        <Button
+            android:id="@+id/oneMinuteThirtySecondsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="1분 30초" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
@@ -42,27 +65,5 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="243dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/oneMinuteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1분" />
-
-        <Button
-            android:id="@+id/oneMinuteThirtySecondsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="1분 30초" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

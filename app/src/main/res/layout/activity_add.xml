@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/main_background">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textSize="20dp"
         android:id="@+id/editview"
-        android:hint="Todo 입력"/>
+        android:hint="할 일을 입력하세요"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

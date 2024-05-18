@@ -25,7 +25,7 @@ class BookActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "리스트"
+        title = "나의 책 리스트"
 
 
         //리사이클러뷰 어댑터 바인딩

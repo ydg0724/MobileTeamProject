@@ -24,7 +24,7 @@ class PhraseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPhraseBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "명언"
+        title = "동기부여"
 
         //왼쪽 위 툴 메뉴바 바인딩, 이벤트
         toggle = ActionBarDrawerToggle(this, binding.drawer,

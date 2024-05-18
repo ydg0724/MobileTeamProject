@@ -15,7 +15,7 @@ class AddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "Add Todos"
+        title = "할 일 추가"
 
         val path: File = getDatabasePath("tododb")
 
