@@ -23,6 +23,9 @@ class StudyStopWatch : AppCompatActivity() {
 
         val path: File = getDatabasePath("studydb")
 
+        val db = openOrCreateDatabase("studydb",Context.MODE_PRIVATE, null)
+
+
         //start버튼
         binding.startBtn.setOnClickListener {
             binding.stopwatch.base = elapsedRealtime() + pauseTime  //다시 시작하는 시간
@@ -61,7 +64,7 @@ class StudyStopWatch : AppCompatActivity() {
             binding.stopBtn.isEnabled = false
             binding.resetBtn.isEnabled = false
 
-            val db = openOrCreateDatabase("studydb",Context.MODE_PRIVATE, null)
+
 
             val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
             val date = dateFormat.format(java.util.Date())

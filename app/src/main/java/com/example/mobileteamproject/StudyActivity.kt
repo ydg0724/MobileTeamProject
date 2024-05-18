@@ -24,8 +24,12 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.io.File
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 import kotlin.random.Random
 
 class StudyActivity : AppCompatActivity() {
@@ -166,13 +170,38 @@ class StudyActivity : AppCompatActivity() {
             db.close()
         }
 
-        Log.d("yang","dataList : $dateList")
-        Log.d("yang", "studyTimeList : $studyTimeList")
+        val studydb = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
 
+        val calender = Calendar.getInstance()
+        calender.add(Calendar.DATE,-1)
+        val yesterdayformat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val yesterdayDate = yesterdayformat.format(calender.time)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = dateFormat.format(Date())
+
+        val yesterdayCursor = studydb.rawQuery("SELECT STUDYTIME FROM STUDY_TB WHERE DATE = ?", arrayOf(yesterdayDate))
+        val todayCursor = studydb.rawQuery("select STUDYTIME from STUDY_TB where DATE = ?", arrayOf(date))
+        //어제 공부량 구하기
+        val yesterdayTime = mutableListOf<Double>()
+        while (yesterdayCursor.moveToNext())
+            yesterdayTime.add(yesterdayCursor.getDouble(yesterdayCursor.getColumnIndexOrThrow("STUDYTIME")))
+
+        //오늘의 공부량 구하기
+        val studyTimes = mutableListOf<Double>()
+        while (todayCursor.moveToNext())
+            studyTimes.add(todayCursor.getDouble(todayCursor.getColumnIndexOrThrow("STUDYTIME")))
+
+        val yesterdayMinutes = yesterdayTime[0].toInt()
+        binding.yesterdayTime.text = "${yesterdayMinutes/60}시간 ${yesterdayMinutes%60}분"
+        val todayMinutes = studyTimes[0].toInt()
+        binding.todayTime.text = "${todayMinutes/60}시간 ${todayMinutes%60}분"
+        Log.d("yang", "today : ${studyTimes[0]}")
+        todayCursor.close()
+        
         initBarChart(binding.studyWeekTime) //그래프 기본설정
         setupChart(binding.studyWeekTime,dateList,studyTimeList)   //그래프 데이터세팅
     }
-    //막대 그래프
+    //막대 그래프 세팅
     private fun setupChart(barChart: BarChart, dateList: List<String>, studyTimeList: MutableList<Double>){
         
         //줌인, 줌아웃 설정
