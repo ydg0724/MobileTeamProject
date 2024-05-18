@@ -3,84 +3,59 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="left"
-        android:background="#FFFFFF">
-        <TextView
-            android:id="@+id/menu1"
-            android:text="Todo"
-            style="@style/MenuStyle"/>
-        <TextView
-            android:id="@+id/menu2"
-            android:text="명언"
-            style="@style/MenuStyle"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"/>
-        <TextView
-            android:id="@+id/menu3"
-            android:text="공부"
-            style="@style/MenuStyle"/>
-        <TextView
-            android:id="@+id/menu4"
-            android:text="운동"
-            style="@style/MenuStyle"/>
-        <TextView
-            android:id="@+id/menu5"
-            android:text="독서"
-            style="@style/MenuStyle"/>
-    </LinearLayout>
+
 
 
     <LinearLayout
         android:id="@+id/compareStudyTime"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
         android:orientation="vertical">
         <!--공부량 비교-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingHorizontal="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="어제: "
-                android:textSize="20dp" />
+                android:text="어제"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5시간"
-                android:textSize="20dp" />
+                android:text=""
+                android:textSize="20dp"
+                android:id="@+id/yesterdayTime"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:paddingHorizontal="20dp">
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:layout_marginVertical="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="오늘: "
-                android:textSize="20dp" />
+                android:text="오늘"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5시간"
-                android:textSize="20dp" />
+                android:text=""
+                android:textSize="20dp"
+                android:id="@+id/todayTime"/>
         </LinearLayout>
 
         <RelativeLayout
@@ -130,5 +105,43 @@
                 android:id="@+id/studyWeekTime"/>
 
         </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="left"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="125dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/tool_image"/>
+        <TextView
+            android:id="@+id/menu1"
+            android:text="Todo"
+            style="@style/MenuStyle"/>
+        <TextView
+            android:id="@+id/menu2"
+            android:text="명언"
+            style="@style/MenuStyle"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/menu3"
+            android:text="공부"
+            style="@style/MenuStyle"/>
+        <TextView
+            android:id="@+id/menu4"
+            android:text="운동"
+            style="@style/MenuStyle"/>
+        <TextView
+            android:id="@+id/menu5"
+            android:text="독서"
+            style="@style/MenuStyle"/>
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

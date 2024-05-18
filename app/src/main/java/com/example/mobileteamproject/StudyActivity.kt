@@ -217,7 +217,7 @@ class StudyActivity : AppCompatActivity() {
         }
 
         val barDataSet = BarDataSet(valueList, title)
-        barDataSet.setColors(Color.BLUE)
+        barDataSet.setColors(R.color.main)
 
         val data = BarData(barDataSet)
         barChart.data = data
