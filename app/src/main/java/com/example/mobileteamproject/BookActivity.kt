@@ -134,12 +134,11 @@ class ResultAdapterBook(val titles: MutableList<String>, val ratings: MutableLis
     }
     override fun getItemCount(): Int = titles.size
     override fun onBindViewHolder(holder: ResultHolderBook, position: Int) {
-        holder.binding.title.text = titles[position]
-        holder.binding.rating.text = ratings[position].toString()
+        holder.binding.textview.text = titles[position] + " - " + ratings[position].toString()
         holder.binding.deleteBtn.setOnClickListener {
             onClickListenerdelete?.listItemClickListener(titles[position], holder.binding)
         }
-        holder.binding.title.setOnClickListener {
+        holder.binding.textview.setOnClickListener {
             onClickListener?.listItemClickListener(titles[position], holder.binding)
         }
     }

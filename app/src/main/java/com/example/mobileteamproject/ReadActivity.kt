@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileteamproject.databinding.ActivityReadBinding
+import com.example.mobileteamproject.databinding.DialogPageBinding
 import com.example.mobileteamproject.databinding.ListReadBinding
 import com.example.mobileteamproject.databinding.PageReadBinding
 import com.example.mobileteamproject.databinding.TodoMainBinding
@@ -64,6 +65,34 @@ class ReadActivity : AppCompatActivity() {
                 }
                 db.close()
                 adapter.notifyDataSetChanged()
+            }
+        })
+        val mContext = this
+        adapter.listItemClickListenerPageFunc(object: SetOnClickListenerInterfacePage {
+            override fun listItemClickListener(itemData: String, binding: PageReadBinding) {
+                val dialogBinding = DialogPageBinding.inflate(layoutInflater)
+                AlertDialog.Builder(mContext).run {
+                    setTitle("페이지 수정")
+                    setView(dialogBinding.root)
+                    dialogBinding.textview.text = itemData
+                    setPositiveButton("확인") {_, _ ->
+                        var page = dialogBinding.editview.text.toString()
+                        val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
+                        db.execSQL("update PAGE_TB set page = '${page}' where title = ?",
+                            arrayOf(itemData))
+                        val cursor = db.rawQuery("select title, page from PAGE_TB", null)
+                        titles.clear()
+                        pages.clear()
+                        while (cursor.moveToNext()) {
+                            titles.add(cursor.getString(0))
+                            pages.add(cursor.getString(1))
+                        }
+                        db.close()
+                        adapter.notifyDataSetChanged()
+                    }
+                    setNegativeButton("취소", null)
+                    show()
+                }
             }
         })
 
@@ -149,18 +178,28 @@ class ResultAdapterRead(val titles: MutableList<String>, val pages: MutableList<
         ResultHolderRead(PageReadBinding.inflate(LayoutInflater.from(parent.context),
             parent, false))
     var onClickListener: SetOnClickListenerInterfaceRead? = null
+    var onPageClickListener: SetOnClickListenerInterfacePage? = null
     fun listItemClickListenerFunc(pOnClick: SetOnClickListenerInterfaceRead) {
         this.onClickListener = pOnClick
     }
+    fun listItemClickListenerPageFunc(pOnClick: SetOnClickListenerInterfacePage) {
+        this.onPageClickListener = pOnClick
+    }
     override fun getItemCount(): Int = titles.size
     override fun onBindViewHolder(holder: ResultHolderRead, position: Int) {
-        holder.binding.title.text = titles[position]
-        holder.binding.page.text = pages[position]
+        holder.binding.textview.text = titles[position] + " - " + pages[position]
         holder.binding.deleteBtn.setOnClickListener {
             onClickListener?.listItemClickListener(titles[position], holder.binding)
+        }
+        holder.binding.textview.setOnClickListener {
+            onPageClickListener?.listItemClickListener(titles[position], holder.binding)
         }
     }
 }
 interface SetOnClickListenerInterfaceRead {
+    fun listItemClickListener(itemData: String, binding: PageReadBinding)
+}
+
+interface SetOnClickListenerInterfacePage {
     fun listItemClickListener(itemData: String, binding: PageReadBinding)
 }

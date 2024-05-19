@@ -2,6 +2,7 @@ package com.example.mobileteamproject
 
 import android.content.Context
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ class ViewFragment : Fragment() {
     ): View? {
         binding = FragmentViewBinding.inflate(inflater, container, false)
         binding.textview.text = data
+        binding.textview.movementMethod = ScrollingMovementMethod.getInstance()
         return binding.root
     }
 }

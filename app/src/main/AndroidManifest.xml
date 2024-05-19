@@ -27,14 +27,16 @@
         <activity
             android:name=".BookActivity"
             android:exported="false"
-            android:parentActivityName=".ReadActivity" />
+            android:parentActivityName=".ReadActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".StudyStopWatch"
             android:exported="false"
             android:parentActivityName=".StudyActivity" />
         <activity
             android:name=".ReadActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".SportActivity"
             android:exported="false" />
