@@ -7,27 +7,48 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="제목"
+        android:textSize="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/textview"
         android:text="빌리 밀리건"
-        android:textSize="40dp"
+        android:textSize="30dp"
         android:textStyle="bold"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="별점"
+        android:textSize="20dp"
+        android:layout_marginTop="30dp"/>
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ratingBar"
-        android:layout_marginVertical="20dp"/>
+        android:isIndicator="false"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:progressTint="@color/sub"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="나의 메모"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/border_layout"
+        android:padding="10dp">
 
     </LinearLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button"
-        android:text="Edit"
+        android:text="수정"
         android:textSize="20dp"
         android:layout_gravity="right"
         android:layout_marginTop="5dp"/>

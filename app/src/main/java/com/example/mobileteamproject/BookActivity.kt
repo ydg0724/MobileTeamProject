@@ -21,6 +21,7 @@ import java.io.File
 class BookActivity : AppCompatActivity() {
     lateinit var binding: ActivityBookBinding
     val titles = mutableListOf<String>()
+    val ratings = mutableListOf<Float>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBookBinding.inflate(layoutInflater)
@@ -30,7 +31,7 @@ class BookActivity : AppCompatActivity() {
 
         //리사이클러뷰 어댑터 바인딩
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = ResultAdapterBook(titles)
+        val adapter = ResultAdapterBook(titles, ratings)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
@@ -47,10 +48,12 @@ class BookActivity : AppCompatActivity() {
                 val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
                 db.execSQL("delete from BOOK_TB where title = ?",
                     arrayOf(itemData))
-                val cursor = db.rawQuery("select title from BOOK_TB", null)
+                val cursor = db.rawQuery("select title, rate from BOOK_TB", null)
                 titles.clear()
+                ratings.clear()
                 while (cursor.moveToNext()) {
                     titles.add(cursor.getString(0))
+                    ratings.add(cursor.getFloat(1))
                 }
                 db.close()
                 adapter.notifyDataSetChanged()
@@ -59,10 +62,12 @@ class BookActivity : AppCompatActivity() {
 
         //db 열고 데이터 읽기
         val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
-        val cursor = db.rawQuery("select title from BOOK_TB", null)
+        val cursor = db.rawQuery("select title, rate from BOOK_TB", null)
         titles.clear()
+        ratings.clear()
         while (cursor.moveToNext()) {
             titles.add(cursor.getString(0))
+            ratings.add(cursor.getFloat(1))
         }
         db.close()
 
@@ -82,10 +87,12 @@ class BookActivity : AppCompatActivity() {
         binding.searchBtn.setOnClickListener {
             val data = binding.editview.text.toString()
             val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
-            val cursor = db.rawQuery("select title from BOOK_TB where title = '${data}'", null)
+            val cursor = db.rawQuery("select title, rate from BOOK_TB where title = '${data}'", null)
             titles.clear()
+            ratings.clear()
             while (cursor.moveToNext()) {
                 titles.add(cursor.getString(0))
+                ratings.add(cursor.getFloat(1))
             }
             db.close()
             adapter.notifyDataSetChanged()
@@ -94,10 +101,12 @@ class BookActivity : AppCompatActivity() {
 
         binding.showBtn.setOnClickListener {
             val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
-            val cursor = db.rawQuery("select title from BOOK_TB", null)
+            val cursor = db.rawQuery("select title, rate from BOOK_TB", null)
             titles.clear()
+            ratings.clear()
             while (cursor.moveToNext()) {
                 titles.add(cursor.getString(0))
+                ratings.add(cursor.getFloat(1))
             }
             db.close()
             adapter.notifyDataSetChanged()
@@ -110,7 +119,7 @@ class BookActivity : AppCompatActivity() {
 //리사이클러뷰 어댑터
 class ResultHolderBook(val binding: ListReadBinding): RecyclerView.ViewHolder(binding.root)
 
-class ResultAdapterBook(val titles: MutableList<String>):
+class ResultAdapterBook(val titles: MutableList<String>, val ratings: MutableList<Float>):
     RecyclerView.Adapter<ResultHolderBook>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultHolderBook =
         ResultHolderBook(ListReadBinding.inflate(LayoutInflater.from(parent.context),
@@ -126,6 +135,7 @@ class ResultAdapterBook(val titles: MutableList<String>):
     override fun getItemCount(): Int = titles.size
     override fun onBindViewHolder(holder: ResultHolderBook, position: Int) {
         holder.binding.title.text = titles[position]
+        holder.binding.rating.text = ratings[position].toString()
         holder.binding.deleteBtn.setOnClickListener {
             onClickListenerdelete?.listItemClickListener(titles[position], holder.binding)
         }

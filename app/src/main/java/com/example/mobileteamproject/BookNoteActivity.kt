@@ -17,7 +17,7 @@ class BookNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBookNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "Note"
+        title = "메모"
         booktitle = intent.getStringExtra("title")
 
         var data = mutableListOf<String>()
@@ -50,13 +50,13 @@ class BookNoteActivity : AppCompatActivity() {
         setDataAtFragment(fragment, note)
 
         binding.button.setOnClickListener {
-            if (binding.button.text.toString().equals("Edit")) {
-                binding.button.text = "OK"
+            if (binding.button.text.toString().equals("수정")) {
+                binding.button.text = "확인"
                 val data = getNoteFromDb()
                 val fragment = EditFragment()
                 setDataAtFragment(fragment, data)
             } else {
-                binding.button.text = "Edit"
+                binding.button.text = "수정"
                 val data = getNoteFromDb()
                 val fragment = ViewFragment()
                 setDataAtFragment(fragment, data)

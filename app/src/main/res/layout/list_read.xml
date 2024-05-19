@@ -17,14 +17,37 @@
             android:src="@drawable/book_mark"
             android:layout_marginRight="5dp"
             android:layout_gravity="center_vertical"/>
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/title"
-            android:text="빌리 밀리건"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_gravity="center_vertical"/>
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/title"
+                android:textSize="20dp"
+                android:text="빌리 밀리건"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  -  "
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rating"
+                android:textSize="20dp"
+                android:text="4.5"
+                android:textStyle="italic"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
     </LinearLayout>
     <Button
         android:id="@+id/deleteBtn"

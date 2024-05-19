@@ -15,7 +15,9 @@
             android:layout_height="wrap_content"
             android:textSize="30dp"
             android:gravity="center_horizontal"
-            android:layout_margin="20dp"/>
+            android:layout_margin="20dp"
+            android:background="@drawable/border_layout"
+            android:padding="10dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,36 +30,90 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="left"
-        android:background="#FFFFFF"
-        android:backgroundTint="#ffffff">
+        android:background="#FFFFFF">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="125dp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/tool_image"/>
-        <TextView
-            android:id="@+id/menu1"
-            android:text="Todo"
-            style="@style/MenuStyle"/>
-        <TextView
-            android:id="@+id/menu2"
-            android:text="명언"
-            style="@style/MenuStyle"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/check_mark"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/menu1"
+                android:text="Todo"
+                style="@style/MenuStyle"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/phrase_mark"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/menu2"
+                android:text="명언"
+                style="@style/MenuStyle"/>
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"/>
-        <TextView
-            android:id="@+id/menu3"
-            android:text="공부"
-            style="@style/MenuStyle"/>
-        <TextView
-            android:id="@+id/menu4"
-            android:text="운동"
-            style="@style/MenuStyle"/>
-        <TextView
-            android:id="@+id/menu5"
-            android:text="독서"
-            style="@style/MenuStyle"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/study_mark"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/menu3"
+                android:text="공부"
+                style="@style/MenuStyle"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/sport_mark"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/menu4"
+                android:text="운동"
+                style="@style/MenuStyle"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/book_mark"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/menu5"
+                android:text="독서"
+                style="@style/MenuStyle"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
