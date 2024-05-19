@@ -170,6 +170,7 @@ class StudyActivity : AppCompatActivity() {
             db.close()
         }
 
+
         val studydb = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
 
         val calender = Calendar.getInstance()
@@ -178,6 +179,7 @@ class StudyActivity : AppCompatActivity() {
         val yesterdayDate = yesterdayformat.format(calender.time)
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = dateFormat.format(Date())
+
 
         val yesterdayCursor = studydb.rawQuery("SELECT STUDYTIME FROM STUDY_TB WHERE DATE = ?", arrayOf(yesterdayDate))
         val todayCursor = studydb.rawQuery("select STUDYTIME from STUDY_TB where DATE = ?", arrayOf(date))
@@ -191,13 +193,15 @@ class StudyActivity : AppCompatActivity() {
         while (todayCursor.moveToNext())
             studyTimes.add(todayCursor.getDouble(todayCursor.getColumnIndexOrThrow("STUDYTIME")))
 
-        val yesterdayMinutes = yesterdayTime[0].toInt()
+        /*val yesterdayMinutes = yesterdayTime[0].toInt()
         binding.yesterdayTime.text = "${yesterdayMinutes/60}시간 ${yesterdayMinutes%60}분"
         val todayMinutes = studyTimes[0].toInt()
         binding.todayTime.text = "${todayMinutes/60}시간 ${todayMinutes%60}분"
         Log.d("yang", "today : ${studyTimes[0]}")
-        todayCursor.close()
-        
+        todayCursor.close()*/
+
+        Log.d("yang","test1")
+
         initBarChart(binding.studyWeekTime) //그래프 기본설정
         setupChart(binding.studyWeekTime,dateList,studyTimeList)   //그래프 데이터세팅
     }
