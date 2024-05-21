@@ -1,61 +1,94 @@
-<!-- fragment_calendar.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/diaryTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Select a date"
-        android:textSize="18sp"
-        android:visibility="gone" />
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp" />
 
     <EditText
         android:id="@+id/contextEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="116dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:hint="내용을 입력하세요."
         android:layout_marginTop="16dp"
-        android:hint="Write something..."
-        android:visibility="gone" />
+        app:layout_constraintTop_toBottomOf="@+id/diaryTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:visibility="gone" />
+        android:id="@+id/diaryContent"
+        android:layout_width="0dp"
+        android:layout_height="116dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/contextEditText"
+        app:layout_constraintBottom_toBottomOf="@+id/contextEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        android:visibility="invisible" />
+
+
 
     <Button
-        android:id="@+id/save_Btn"
-        android:layout_width="wrap_content"
+        android:id="@+id/saveBtn"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="저장"
         android:layout_marginTop="16dp"
-        android:text="Save"
-        android:visibility="gone" />
+        app:layout_constraintTop_toBottomOf="@+id/contextEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        android:visibility="invisible" />
 
     <Button
-        android:id="@+id/cha_Btn"
-        android:layout_width="wrap_content"
+        android:id="@+id/updateBtn"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Change"
-        android:visibility="gone" />
+        android:text="수정"
+        app:layout_constraintBaseline_toBaselineOf="@+id/saveBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
+        android:layout_marginEnd="8dp"
+        android:visibility="invisible" />
 
     <Button
-        android:id="@+id/del_Btn"
-        android:layout_width="wrap_content"
+        android:id="@+id/deleteBtn"
+        android:layout_width="176dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Delete"
-        android:visibility="gone" />
+        android:text="삭제"
+        app:layout_constraintBaseline_toBaselineOf="@+id/updateBtn"
+        app:layout_constraintEnd_toEndOf="@+id/saveBtn"
+        android:layout_marginEnd="8dp"
+        android:visibility="invisible" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

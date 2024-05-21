@@ -17,6 +17,7 @@ class TimerTabTimerFragment : Fragment() {
     lateinit var startButton: Button
     lateinit var stopButton: Button
     lateinit var resetButton: Button
+    lateinit var ThirtySecondsButton: Button
     lateinit var oneMinuteButton: Button
     lateinit var oneMinuteThirtySecondsButton: Button
 
@@ -33,13 +34,15 @@ class TimerTabTimerFragment : Fragment() {
         startButton = view.findViewById(R.id.startButton)
         stopButton = view.findViewById(R.id.stopButton)
         resetButton = view.findViewById(R.id.resetButton)
+        ThirtySecondsButton = view.findViewById(R.id.ThirtySecondsButton)
         oneMinuteButton = view.findViewById(R.id.oneMinuteButton)
-        oneMinuteThirtySecondsButton = view.findViewById(R.id.oneMinuteThirtySecondsButton)
+        oneMinuteThirtySecondsButton = view.findViewById(R.id.oneThirtySecondsButton)
 
         timerTextView.setOnClickListener { showTimePickerDialog() }
         startButton.setOnClickListener { startTimer() }
         stopButton.setOnClickListener { stopTimer() }
         resetButton.setOnClickListener { resetTimer() }
+        ThirtySecondsButton.setOnClickListener{setTimer(1*30)}
         oneMinuteButton.setOnClickListener { setTimer(1 * 60) } // 1분
         oneMinuteThirtySecondsButton.setOnClickListener { setTimer(1 * 60 + 30) } // 1분 30초
 

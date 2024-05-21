@@ -1,146 +1,111 @@
 package com.example.mobileteamproject
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
-import com.example.mobileteamproject.databinding.FragmentCalendarBinding
-import java.io.FileInputStream
-import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CalendarFragment : Fragment() {
 
-    private var _binding: FragmentCalendarBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var calendarView: CalendarView
+    private lateinit var diaryTextView: TextView
+    private lateinit var contextEditText: EditText
+    private lateinit var saveBtn: Button
+    private lateinit var updateBtn: Button
+    private lateinit var deleteBtn: Button
+    private lateinit var diaryContent: TextView
 
-    private var fname: String = ""
-    private var str: String = ""
+    private var selectedDate: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-        binding.calendarView.setOnDateChangeListener { calendarView, year, month, dayOfMonth ->
-            binding.diaryTextView.visibility = View.VISIBLE
-            binding.saveBtn.visibility = View.VISIBLE
-            binding.contextEditText.visibility = View.VISIBLE
-            binding.textView2.visibility = View.INVISIBLE
-            binding.chaBtn.visibility = View.INVISIBLE
-            binding.delBtn.visibility = View.INVISIBLE
-
-            binding.diaryTextView.text = String.format("%d / %d / %d", year, month + 1, dayOfMonth)
-            binding.contextEditText.setText("")
-
-            checkedDay(year, month, dayOfMonth)
-        }
-
-        binding.saveBtn.setOnClickListener {
-            saveDiary(fname)
-            Toast.makeText(requireContext(), "$fname 데이터를 저장했습니다.", Toast.LENGTH_SHORT).show()
-            str = binding.contextEditText.text.toString()
-            binding.textView2.text = str
-            binding.saveBtn.visibility = View.INVISIBLE
-            binding.chaBtn.visibility = View.VISIBLE
-            binding.delBtn.visibility = View.VISIBLE
-            binding.contextEditText.visibility = View.INVISIBLE
-            binding.textView2.visibility = View.VISIBLE
-        }
-
-        return view
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_calendar, container, false)
     }
 
-    private fun checkedDay(cYear: Int, cMonth: Int, cDay: Int) {
-        fname = "" + cYear + "-" + (cMonth + 1) + "" + "-" + cDay + ".txt"
-        var fis: FileInputStream? = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        try {
-            fis = requireContext().openFileInput(fname)
-            val fileData = ByteArray(fis.available())
-            fis.read(fileData)
-            fis.close()
+        // View 초기화
+        calendarView = view.findViewById(R.id.calendarView)
+        diaryTextView = view.findViewById(R.id.diaryTextView)
+        contextEditText = view.findViewById(R.id.contextEditText)
+        saveBtn = view.findViewById(R.id.saveBtn)
+        updateBtn = view.findViewById(R.id.updateBtn)
+        deleteBtn = view.findViewById(R.id.deleteBtn)
+        diaryContent = view.findViewById(R.id.diaryContent)
 
-            str = String(fileData)
-            binding.contextEditText.visibility = View.INVISIBLE
-            binding.textView2.visibility = View.VISIBLE
-            binding.textView2.text = str
+        // CalendarView 날짜 변경 리스너 설정
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, dayOfMonth)
+            selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+            diaryTextView.text = selectedDate
+            loadDiary()
+        }
 
-            binding.saveBtn.visibility = View.INVISIBLE
-            binding.chaBtn.visibility = View.VISIBLE
-            binding.delBtn.visibility = View.VISIBLE
+        saveBtn.setOnClickListener {
+            saveDiary()
+        }
 
-            binding.chaBtn.setOnClickListener {
-                binding.contextEditText.visibility = View.VISIBLE
-                binding.textView2.visibility = View.INVISIBLE
-                binding.contextEditText.setText(str)
-                binding.saveBtn.visibility = View.VISIBLE
-                binding.chaBtn.visibility = View.INVISIBLE
-                binding.delBtn.visibility = View.INVISIBLE
-                binding.textView2.text = binding.contextEditText.text
-            }
+        updateBtn.setOnClickListener {
+            updateDiary()
+        }
 
-            binding.delBtn.setOnClickListener {
-                binding.textView2.visibility = View.INVISIBLE
-                binding.contextEditText.setText("")
-                binding.contextEditText.visibility = View.VISIBLE
-                binding.saveBtn.visibility = View.VISIBLE
-                binding.chaBtn.visibility = View.INVISIBLE
-                binding.delBtn.visibility = View.INVISIBLE
-                removeDiary(fname)
-                Toast.makeText(requireContext(), "$fname 데이터를 삭제했습니다.", Toast.LENGTH_SHORT).show()
-            }
-
-            if (binding.textView2.text.isEmpty()) {
-                binding.textView2.visibility = View.INVISIBLE
-                binding.diaryTextView.visibility = View.VISIBLE
-                binding.saveBtn.visibility = View.VISIBLE
-                binding.chaBtn.visibility = View.INVISIBLE
-                binding.delBtn.visibility = View.INVISIBLE
-                binding.contextEditText.visibility = View.VISIBLE
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
+        deleteBtn.setOnClickListener {
+            deleteDiary()
         }
     }
 
-    @SuppressLint("WrongConstant")
-    private fun saveDiary(readyDay: String) {
-        var fos: FileOutputStream? = null
-
-        try {
-            fos = requireContext().openFileOutput(readyDay, 0)
-            val content: String = binding.contextEditText.text.toString()
-            fos.write(content.toByteArray())
-            fos.close()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun loadDiary() {
+        val dbHelper = MemoDatabaseHelper(requireContext())
+        val diaryText = dbHelper.getMemo(selectedDate)
+        if (diaryText != null) {
+            contextEditText.visibility = View.INVISIBLE
+            diaryContent.visibility = View.VISIBLE
+            diaryContent.text = diaryText
+            saveBtn.visibility = View.INVISIBLE
+            updateBtn.visibility = View.VISIBLE
+            deleteBtn.visibility = View.VISIBLE
+        } else {
+            contextEditText.visibility = View.VISIBLE
+            diaryContent.visibility = View.INVISIBLE
+            saveBtn.visibility = View.VISIBLE
+            updateBtn.visibility = View.INVISIBLE
+            deleteBtn.visibility = View.INVISIBLE
         }
     }
 
-    @SuppressLint("WrongConstant")
-    private fun removeDiary(readyDay: String) {
-        var fos: FileOutputStream? = null
-
-        try {
-            fos = requireContext().openFileOutput(readyDay, 0)
-            val content: String = ""
-            fos.write(content.toByteArray())
-            fos.close()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun saveDiary() {
+        val text = contextEditText.text.toString()
+        if (text.isNotEmpty()) {
+            val dbHelper = MemoDatabaseHelper(requireContext())
+            dbHelper.addOrUpdateMemo(selectedDate, text)
+            loadDiary()
+        } else {
+            Toast.makeText(activity, "내용을 입력하세요.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun updateDiary() {
+        contextEditText.visibility = View.VISIBLE
+        diaryContent.visibility = View.INVISIBLE
+        saveBtn.visibility = View.VISIBLE
+        updateBtn.visibility = View.INVISIBLE
+        deleteBtn.visibility = View.INVISIBLE
+        contextEditText.setText(diaryContent.text)
+    }
+
+    private fun deleteDiary() {
+        val dbHelper = MemoDatabaseHelper(requireContext())
+        dbHelper.deleteMemo(selectedDate)
+        contextEditText.text.clear()
+        loadDiary()
     }
 }

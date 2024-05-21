@@ -1,11 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_timer"
+        android:icon="@drawable/timer"
         android:title="타이머" />
     <item
         android:id="@+id/menu_home"
+        android:icon="@drawable/home"
         android:title="홈" />
     <item
         android:id="@+id/menu_calendar"
+        android:icon="@drawable/calendar"
         android:title="캘린더" />
 </menu>

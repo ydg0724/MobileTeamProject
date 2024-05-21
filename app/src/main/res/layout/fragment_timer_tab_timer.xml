@@ -21,18 +21,25 @@
         android:layout_marginVertical="10dp">
 
         <Button
+            android:id="@+id/ThirtySecondsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30초" />
+
+        <Button
             android:id="@+id/oneMinuteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1분" />
+            android:text="1분"
+            android:layout_marginStart="8dp"/>
 
         <Button
-            android:id="@+id/oneMinuteThirtySecondsButton"
+            android:id="@+id/oneThirtySecondsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="1분30초"
             android:layout_marginStart="8dp"
-            android:text="1분 30초" />
-
+            android:layout_marginEnd="8dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,9 +66,9 @@
             android:id="@+id/resetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="초기화"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:text="초기화" />
 
     </LinearLayout>
 
