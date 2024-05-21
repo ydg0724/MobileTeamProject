@@ -87,7 +87,7 @@ class BookActivity : AppCompatActivity() {
         binding.searchBtn.setOnClickListener {
             val data = binding.editview.text.toString()
             val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
-            val cursor = db.rawQuery("select title, rate from BOOK_TB where title = '${data}'", null)
+            val cursor = db.rawQuery("select title, rate from BOOK_TB where title like '%${data}%'", null)
             titles.clear()
             ratings.clear()
             while (cursor.moveToNext()) {

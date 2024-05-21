@@ -7,15 +7,24 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="제목"
+        android:textSize="15dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/textview"
         android:textSize="30dp"
         android:text="Hello"/>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="페이지"
+        android:textSize="15dp"
+        android:layout_marginTop="20dp"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editview"
         android:hint="페이지를 입력하세요"
-        android:inputType="number"
-        android:layout_marginTop="20dp"/>
+        android:inputType="number"/>
 </LinearLayout>
