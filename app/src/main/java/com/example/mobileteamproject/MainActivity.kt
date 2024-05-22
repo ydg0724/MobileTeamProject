@@ -1,11 +1,14 @@
 package com.example.mobileteamproject
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.openOrCreateDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Build
 import android.os.Bundle
 import android.service.carrier.CarrierMessagingService.ResultCallback
 import android.util.Log
@@ -16,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,12 +31,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileteamproject.databinding.ActivityMainBinding
 import com.example.mobileteamproject.databinding.TodoMainBinding
 import java.io.File
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kotlin.concurrent.thread
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var toggle: ActionBarDrawerToggle
     val todoDatas = mutableListOf<String>()
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -114,6 +122,46 @@ class MainActivity : AppCompatActivity() {
                 false -> binding.addBtn.extend()
             }
         }
+
+        //study 데이터 생성
+        val studydb = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
+
+        studydb.execSQL("delete from STUDY_TB")  //원래 생성되어있던 데이터 삭제
+
+        val startDate = LocalDate.of(2024, 1, 1)
+        val endDate = LocalDate.now().plusDays(1)
+        val dateList = mutableListOf<String>()
+        val studyTimeList = mutableListOf<Double>()
+
+
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        var currentDate = startDate
+        Log.d("yang","dateFormatBTN : $endDate")
+        while (!currentDate.isAfter(endDate)) {
+            // 날짜 추가
+            dateList.add(currentDate.format(dateFormatter))
+
+            // 임의의 공부 시간 생성 (예: 0~5시간, 0~59분, 0~59초)
+            val hours = Random.nextInt(1, 5)
+            val minutes = Random.nextInt(0, 60)
+            val seconds = Random.nextInt(0, 60)
+            studyTimeList.add(hours * 60.0 + minutes + (seconds/60.0))
+
+            // 다음 날짜로
+            currentDate = currentDate.plusDays(1)
+        }
+        for(i in dateList.indices) {
+            // ContentValues를 사용하여 데이터 추가
+            val values = ContentValues().apply {
+                put("DATE", dateList[i])
+                put("STUDYTIME", studyTimeList[i])
+            }
+
+            // 데이터베이스에 데이터 삽입
+            studydb.insert("STUDY_TB", null, values)
+
+        }
+        studydb.close()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -148,4 +196,6 @@ class ResultAdapter(val todoDatas: MutableList<String>):
 interface SetOnClickListenerInterface {
     fun listItemClickListener(itemData: String, binding: TodoMainBinding)
 }
+
+
 

@@ -9,16 +9,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="총 공부한 시간"
+        android:text="올해 공부한 시간"
         android:textSize="50dp"
         android:gravity="center"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="15시간 15분"
+        android:text=""
         android:textSize="30dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:id="@+id/monthlyTotalTime"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,31 +37,31 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:text="평균 :"
-                android:textSize="35dp"
+                android:text="월 평균 :"
+                android:textSize="25dp"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_weight="1"
-                android:text="4:15:00"
+                android:layout_weight="1.2"
+                android:text=""
                 android:id="@+id/AvgTime"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:text="최대 :"
-                android:textSize="35dp"
+                android:text="  최대 :"
+                android:textSize="25dp"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_weight="1"
-                android:text="11:16:13"
+                android:layout_weight="1.2"
+                android:text=""
                 android:id="@+id/MaxTime"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:gravity="center"/>
         </LinearLayout>
 

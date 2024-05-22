@@ -29,7 +29,7 @@ class MonthlyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMonthlyBinding.inflate(layoutInflater, container, false)
-
+        
         val db = requireContext().openOrCreateDatabase("studydb", MODE_PRIVATE, null)
         //월별 데이터 추출 쿼리문
         val query = """
@@ -38,7 +38,7 @@ class MonthlyFragment : Fragment() {
         GROUP BY strftime('%Y-%m', DATE)
         ORDER BY DATE ASC
     """.trimIndent()
-        var monthTotalTime:Double = 0.0
+        var monthTotalTime:Double = 0.0 //총 공부량
         val dateList = mutableListOf<String>()
         val studyTimeList = mutableListOf<Double>()
         val cursor = db.rawQuery(query,null)
@@ -52,13 +52,16 @@ class MonthlyFragment : Fragment() {
                 monthTotalTime += totalTime
             }
         }
-        Log.d("yang","MonthdateList : $dateList")
-        Log.d("yang", "MonthstudyTimeList : $studyTimeList")
+        val monthTotalTimeInt = monthTotalTime.toInt()
+        val avgTime = (monthTotalTime/dateList.size).toInt()
+        val maxTime = (studyTimeList.max()).toInt()
+        binding.monthlyTotalTime.text = "${monthTotalTimeInt/60}시간 ${monthTotalTimeInt%60}분"
+        binding.AvgTime.text = "${avgTime/60}시간 ${avgTime%60}분"
+        binding.MaxTime.text = "${maxTime/60}시간 ${maxTime%60}분"
 
         initBarChart(binding.studyMonthlyTime)
         setupChart(binding.studyMonthlyTime,dateList,studyTimeList)
-
-        Log.d("yang","month : $monthTotalTime")
+        
         return binding.root
     }
     private fun setupChart(barChart: BarChart, dateList: List<String>, studyTimeList: MutableList<Double>){
@@ -76,7 +79,7 @@ class MonthlyFragment : Fragment() {
         }
 
         val barDataSet = BarDataSet(valueList, title)
-        barDataSet.setColors(Color.BLUE)
+        barDataSet.color = Color.parseColor("#32D2CA")
 
         val data = BarData(barDataSet)
         barChart.data = data

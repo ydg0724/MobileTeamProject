@@ -98,18 +98,19 @@ class StudyActivity : AppCompatActivity() {
             db.close()
         }
 
-        //데이터 생성
+        /*//데이터 생성
         binding.tmpData.setOnClickListener {
             val db = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
 
             val startDate = LocalDate.of(2024, 1, 1)
-            val endDate = LocalDate.of(2024, 5, 18)
+            val endDate = LocalDate.now().plusDays(1)
             val dateList = mutableListOf<String>()
             val studyTimeList = mutableListOf<Double>()
 
+
             val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             var currentDate = startDate
-
+            Log.d("yang","dateFormatBTN : $endDate")
             while (!currentDate.isAfter(endDate)) {
                 // 날짜 추가
                 dateList.add(currentDate.format(dateFormatter))
@@ -142,7 +143,7 @@ class StudyActivity : AppCompatActivity() {
 
             db.execSQL("delete from STUDY_TB")
             db.close()
-        }
+        }*/
 
         val db = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
         //7일간의 데이터 뽑는 쿼리문
@@ -193,14 +194,12 @@ class StudyActivity : AppCompatActivity() {
         while (todayCursor.moveToNext())
             studyTimes.add(todayCursor.getDouble(todayCursor.getColumnIndexOrThrow("STUDYTIME")))
 
-        /*val yesterdayMinutes = yesterdayTime[0].toInt()
+        val yesterdayMinutes = yesterdayTime[0].toInt()
         binding.yesterdayTime.text = "${yesterdayMinutes/60}시간 ${yesterdayMinutes%60}분"
         val todayMinutes = studyTimes[0].toInt()
         binding.todayTime.text = "${todayMinutes/60}시간 ${todayMinutes%60}분"
         Log.d("yang", "today : ${studyTimes[0]}")
-        todayCursor.close()*/
-
-        Log.d("yang","test1")
+        todayCursor.close()
 
         initBarChart(binding.studyWeekTime) //그래프 기본설정
         setupChart(binding.studyWeekTime,dateList,studyTimeList)   //그래프 데이터세팅
@@ -221,7 +220,7 @@ class StudyActivity : AppCompatActivity() {
         }
 
         val barDataSet = BarDataSet(valueList, title)
-        barDataSet.setColors(R.color.main)
+        barDataSet.color = Color.parseColor("#32D2CA")
 
         val data = BarData(barDataSet)
         barChart.data = data
@@ -229,7 +228,7 @@ class StudyActivity : AppCompatActivity() {
         // X축에 날짜 포맷터 적용
         barChart.xAxis.valueFormatter = DateValueFormatter(dateList)
         barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM // X축을 아래로 설정
-        barChart.xAxis.granularity = 1.2f // X축 간격
+        barChart.xAxis.granularity = 1f // X축 간격
 
         // Y축에 시간 포맷터 적용
         barChart.axisLeft.valueFormatter = TimeValueFormatter()
