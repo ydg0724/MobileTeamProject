@@ -38,6 +38,7 @@ class MonthlyFragment : Fragment() {
         GROUP BY strftime('%Y-%m', DATE)
         ORDER BY DATE ASC
     """.trimIndent()
+
         var monthTotalTime:Double = 0.0 //총 공부량
         val dateList = mutableListOf<String>()
         val studyTimeList = mutableListOf<Double>()
@@ -134,16 +135,6 @@ class MonthlyFragment : Fragment() {
         legend.orientation = Legend.LegendOrientation.HORIZONTAL
         // 차트 내부 범례 위치하게 함 (default = false)
         legend.setDrawInside(true)
-    }
-    class TimeValueFormatter : ValueFormatter() {
-
-        override fun getFormattedValue(value: Float): String {
-            val totalMinutes = value.toInt()
-            val hours = totalMinutes / 60
-            val minutes = totalMinutes % 60
-            val seconds = ((value - totalMinutes) * 60).toInt()
-            return String.format("%d:%02d:%02d", hours, minutes, seconds)
-        }
     }
 
 }

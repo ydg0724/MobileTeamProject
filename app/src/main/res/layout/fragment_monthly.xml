@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="올해 공부한 시간"
-        android:textSize="50dp"
+        android:textSize="45dp"
         android:gravity="center"/>
 
     <TextView

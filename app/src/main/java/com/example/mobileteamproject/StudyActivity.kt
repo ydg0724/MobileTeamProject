@@ -69,11 +69,7 @@ class StudyActivity : AppCompatActivity() {
             startActivity(Intent(this, ReadActivity::class.java))
             binding.drawer.close()
         }
-        /*하단 버튼 이동*/
-        /*binding.goToTodo.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            binding.drawer.close()
-        }*/
+
         binding.goToStatistics.setOnClickListener {
             startActivity(Intent(this, StatisticsActivity::class.java))
             binding.drawer.close()
@@ -82,10 +78,6 @@ class StudyActivity : AppCompatActivity() {
             startActivity(Intent(this, StudyStopWatch::class.java))
             binding.drawer.close()
         }
-        /*binding.gotoPhrase.setOnClickListener {
-            startActivity(Intent(this, PhraseActivity::class.java))
-            binding.drawer.close()
-        }*/
 
         //db 테이블 생성
         val path: File = getDatabasePath("studydb")

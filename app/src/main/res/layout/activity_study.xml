@@ -83,19 +83,6 @@
                     android:text="공부량"
                     android:id="@+id/goToStatistics"
                     android:layout_marginHorizontal="10dp"/>
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:text="임시 데이터 생성"
-                    android:id="@+id/tmpData"
-                    android:layout_marginRight="10dp"/>
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:text="데이터 삭제"
-                    android:id="@+id/deleteData"/>
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.BarChart

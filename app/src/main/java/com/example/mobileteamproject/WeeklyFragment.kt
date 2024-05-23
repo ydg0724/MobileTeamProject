@@ -1,9 +1,6 @@
 package com.example.mobileteamproject
 
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteDatabase.openOrCreateDatabase
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,49 +27,74 @@ class WeeklyFragment : Fragment() {
     ): View? {
         binding = FragmentWeeklyBinding.inflate(inflater, container, false)
 
+
         val db = requireContext().openOrCreateDatabase("studydb", MODE_PRIVATE, null)
+        //주별 데이터 추출 쿼리문
+        val query = """
+        SELECT strftime('%Y-%W', DATE) AS Week, SUM(studyTime) AS TotalTime
+        FROM STUDY_TB
+        GROUP BY strftime('%Y-%W', DATE)
+        ORDER BY DATE ASC
+    """.trimIndent()
+
+        var weeklyTotalTime:Double = 0.0 //총 공부량
+        val dateList = mutableListOf<String>()
+        val studyTimeList = mutableListOf<Double>()
+        val cursor = db.rawQuery(query,null)
+        //월별 데이터 뽑기
+        cursor.use {
+            while(it.moveToNext()){
+                val week = it.getString(it.getColumnIndexOrThrow("Week"))
+                val totalTime = it.getDouble(it.getColumnIndexOrThrow("TotalTime"))
+                dateList.add(week)
+                studyTimeList.add(totalTime)
+                weeklyTotalTime += totalTime
+            }
+        }
+
+        val weekInMonth = (dateList.takeLast(4))
+        val weekStudyTime = studyTimeList.takeLast(4)
+
+        val sumWeekStudy = weekStudyTime.sum().toInt()
+        val avgTime = (sumWeekStudy/weekInMonth.size)
+        val maxTime = (studyTimeList.max()).toInt()
+        binding.weeklyTotalTime.text = "${sumWeekStudy/60}시간 ${sumWeekStudy%60}분"
+        binding.AvgTime.text = "${avgTime/60}시간 ${avgTime%60}분"
+        binding.MaxTime.text = "${maxTime/60}시간 ${maxTime%60}분"
+
+
 
         initBarChart(binding.studyWeeklyTime)
+        setupChart(binding.studyWeeklyTime,weekInMonth, weekStudyTime )
         return binding.root
     }
 
 
-    private fun setupChart(barChart: BarChart, dateList: List<String>, studyTimeList: List<String>){
+    private fun setupChart(barChart: BarChart, dateList: List<String>, studyTimeList: List<Double>){
 
         //줌인, 줌아웃 설정
         barChart.setScaleEnabled(false)
 
         val valueList = ArrayList<BarEntry>()  //데이터
-        val title = "최근 1주일 공부량" //차트 이름
+        val title = "주간 공부량" //차트 이름
 
         //데이터 삽입
         for(i in dateList.indices){
-            //시:분:초를
-            val parts = studyTimeList[i].split(":")
-            val hours = parts[0].toInt()
-            val minutes = parts[1].toInt()
-            val seconds = parts[2].toInt()
-            val lastStudyTime = hours * 60f + minutes + seconds / 60f
-            val entry = BarEntry(i.toFloat() + 1f, lastStudyTime)
+            val entry = BarEntry(i.toFloat() + 1f, studyTimeList[i].toFloat())
             valueList.add(entry)
         }
 
         val barDataSet = BarDataSet(valueList, title)
-        barDataSet.setColors(Color.BLUE)
+        barDataSet.color = Color.parseColor("#32D2CA")
 
         val data = BarData(barDataSet)
         barChart.data = data
 
-        // X축에 날짜 포맷터 적용
-        barChart.xAxis.valueFormatter = StudyActivity.DateValueFormatter(dateList)
-        barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM // X축을 아래로 설정
-        barChart.xAxis.granularity = 1.2f // X축 간격
-
         // Y축에 시간 포맷터 적용
-        /*barChart.axisLeft.valueFormatter = StudyActivity.TimeValueFormatter()
-        barChart.axisRight.valueFormatter = StudyActivity.TimeValueFormatter() // 오른쪽 Y축 비활성화*/
-        barChart.invalidate()
+        barChart.axisLeft.valueFormatter = StudyActivity.TimeValueFormatter()
+        barChart.axisRight.valueFormatter = StudyActivity.TimeValueFormatter()
 
+        barChart.invalidate()
     }
 
     private fun initBarChart(barChart: BarChart) {
@@ -119,6 +141,5 @@ class WeeklyFragment : Fragment() {
         // 차트 내부 범례 위치하게 함 (default = false)
         legend.setDrawInside(true)
     }
-
 
 }
