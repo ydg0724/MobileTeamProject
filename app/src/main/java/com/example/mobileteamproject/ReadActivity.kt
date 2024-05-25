@@ -42,6 +42,15 @@ class ReadActivity : AppCompatActivity() {
             val db = openOrCreateDatabase("readdb", Context.MODE_PRIVATE, null)
             db.execSQL("create table PAGE_TB (_id integer primary key autoincrement, title text not null, page text)")
             db.execSQL("create table BOOK_TB (_id integer primary key autoincrement, title text not null, rate float, note text)")
+            db.execSQL(" insert into PAGE_TB (title, page) values ('어린왕자', '145')")
+            db.execSQL(" insert into PAGE_TB (title, page) values ('호밀밭의 파수꾼', '213')")
+            db.execSQL(" insert into PAGE_TB (title, page) values ('동물농장', '73')")
+            db.execSQL(" insert into BOOK_TB (title, rate, note) values ('어린왕자', 4.5, '너의 장미꽃이 그토록 소중한 것은 그 꽃을 위해 네가 공들인 그 시간 때문이야" +
+                    "\n\n사막이 아름다운 것은 그것이 어딘가에 오아시스를 감추고 있기 때문이야" +
+                    "\n\n내가 좋아하는 사람이 나를 좋아해 주는 건 기적이야')")
+            db.execSQL(" insert into BOOK_TB (title, rate, note) values ('햄릿', 3.0, '덴마크 왕이 갑자기 죽은 후 왕의 동생 클로디어스가 왕위에 오르고, " +
+                    "얼마 지나지 않아 클로디어스가 선왕의 왕비 거트루드와 재혼한다. 갑작스런 아버지의 죽음과 아버지의 동생과 재혼을 한 어머니에 대한 원망에 " +
+                    "사로잡힌 햄릿은 한밤중 초소에서 선왕(아버지)의 망령을 만나게 되고, 동생에 의해 독살되었다는 선왕의 말에 미친 척하며 복수를 꾀하게 된다.')")
             db.close()
         }
 

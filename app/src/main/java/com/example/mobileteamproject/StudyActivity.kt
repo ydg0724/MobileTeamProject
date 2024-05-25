@@ -82,13 +82,18 @@ class StudyActivity : AppCompatActivity() {
         //db 테이블 생성
         val path: File = getDatabasePath("studydb")
         if(path.exists().not()) {
-            val db = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
+            var db = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
             db.execSQL(
                 "create table STUDY_TB(_id integer primary key autoincrement," +
                         " DATE text not null, STUDYTIME float not null )"
             )
             db.close()
         }
+
+//        //study 데이터 생성
+//        val studydb = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
+//
+//        studydb.execSQL("delete from STUDY_TB")  //원래 생성되어있던 데이터 삭제
 
         /*//데이터 생성
         binding.tmpData.setOnClickListener {
@@ -141,7 +146,7 @@ class StudyActivity : AppCompatActivity() {
         //7일간의 데이터 뽑는 쿼리문
         val query = """
             SELECT * FROM STUDY_TB
-            WHERE DATE >= date('now', '-5 days')
+            WHERE DATE >= date('now', '-6 days')
             ORDER BY DATE DESC
         """.trimIndent()
         //커서 선언

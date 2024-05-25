@@ -52,6 +52,9 @@ class MainActivity : AppCompatActivity() {
         if (path.exists().not()) {
             val db = openOrCreateDatabase("tododb", Context.MODE_PRIVATE, null)
             db.execSQL("create table TODO_TB (_id integer primary key autoincrement, data text not null)")
+            db.execSQL(" insert into TODO_TB (data) values ('모바일 팀플 과제하기')")
+            db.execSQL(" insert into TODO_TB (data) values ('운영체제 공부하기')")
+            db.execSQL(" insert into TODO_TB (data) values ('네트워크 프로그래밍 과제하기')")
             db.close()
         }
 
@@ -124,44 +127,51 @@ class MainActivity : AppCompatActivity() {
         }
 
         //study 데이터 생성
-        val studydb = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
+        val studypath: File = getDatabasePath("studydb")
+        if (studypath.exists().not()) {
+            val studydb = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
+            studydb.execSQL(
+                "create table STUDY_TB(_id integer primary key autoincrement," +
+                        " DATE text not null, STUDYTIME float not null )"
+            )
 
-        studydb.execSQL("delete from STUDY_TB")  //원래 생성되어있던 데이터 삭제
+            studydb.execSQL("delete from STUDY_TB")  //원래 생성되어있던 데이터 삭제
 
-        val startDate = LocalDate.of(2024, 1, 1)
-        val endDate = LocalDate.now().plusDays(1)
-        val dateList = mutableListOf<String>()
-        val studyTimeList = mutableListOf<Double>()
+            val startDate = LocalDate.of(2024, 1, 1)
+            val endDate = LocalDate.now()
+            val dateList = mutableListOf<String>()
+            val studyTimeList = mutableListOf<Double>()
 
 
-        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        var currentDate = startDate
-        Log.d("yang","dateFormatBTN : $endDate")
-        while (!currentDate.isAfter(endDate)) {
-            // 날짜 추가
-            dateList.add(currentDate.format(dateFormatter))
+            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            var currentDate = startDate
+            Log.d("yang","dateFormatBTN : $endDate")
+            while (!currentDate.isAfter(endDate)) {
+                // 날짜 추가
+                dateList.add(currentDate.format(dateFormatter))
 
-            // 임의의 공부 시간 생성 (예: 0~5시간, 0~59분, 0~59초)
-            val hours = Random.nextInt(1, 5)
-            val minutes = Random.nextInt(0, 60)
-            val seconds = Random.nextInt(0, 60)
-            studyTimeList.add(hours * 60.0 + minutes + (seconds/60.0))
+                // 임의의 공부 시간 생성 (예: 0~5시간, 0~59분, 0~59초)
+                val hours = Random.nextInt(1, 5)
+                val minutes = Random.nextInt(0, 60)
+                val seconds = Random.nextInt(0, 60)
+                studyTimeList.add(hours * 60.0 + minutes + (seconds/60.0))
 
-            // 다음 날짜로
-            currentDate = currentDate.plusDays(1)
-        }
-        for(i in dateList.indices) {
-            // ContentValues를 사용하여 데이터 추가
-            val values = ContentValues().apply {
-                put("DATE", dateList[i])
-                put("STUDYTIME", studyTimeList[i])
+                // 다음 날짜로
+                currentDate = currentDate.plusDays(1)
             }
+            for(i in dateList.indices) {
+                // ContentValues를 사용하여 데이터 추가
+                val values = ContentValues().apply {
+                    put("DATE", dateList[i])
+                    put("STUDYTIME", studyTimeList[i])
+                }
 
-            // 데이터베이스에 데이터 삽입
-            studydb.insert("STUDY_TB", null, values)
+                // 데이터베이스에 데이터 삽입
+                studydb.insert("STUDY_TB", null, values)
 
+            }
+            studydb.close()
         }
-        studydb.close()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

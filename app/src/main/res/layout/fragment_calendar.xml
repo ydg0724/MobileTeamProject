@@ -42,6 +42,7 @@
 
     <TextView
         android:id="@+id/diaryContent"
+        android:textSize="20dp"
         android:layout_width="0dp"
         android:layout_height="116dp"
         android:gravity="center"
@@ -51,7 +52,7 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="8dp"
-        android:visibility="invisible" />
+        android:visibility="invisible"/>
 
 
 
