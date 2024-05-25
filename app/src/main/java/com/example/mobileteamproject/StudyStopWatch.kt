@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobileteamproject.databinding.ActivityStudyStopWatchBinding
 import java.io.File
+import kotlin.concurrent.timer
 import kotlin.math.abs
 
 class StudyStopWatch : AppCompatActivity() {
@@ -21,10 +22,26 @@ class StudyStopWatch : AppCompatActivity() {
         setContentView(binding.root)
         title = "공부"
 
-        val path: File = getDatabasePath("studydb")
+        //오늘 날짜
+        val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+        val date = dateFormat.format(java.util.Date())
+        var todayStudyTime = 0.0
+        val tmpdb = openOrCreateDatabase("studydb",Context.MODE_PRIVATE, null)
+        //오늘 데이터 추출
 
-        val db = openOrCreateDatabase("studydb",Context.MODE_PRIVATE, null)
+        val nowCursor = tmpdb.rawQuery("Select STUDYTIME FROM STUDY_TB WHERE DATE = ?", arrayOf(date))
+       //이미 데이터가 있으면 추출
+        if (nowCursor.moveToFirst()){
+            todayStudyTime = nowCursor.getDouble(0)
+        }
+        nowCursor.close()
+        tmpdb.close()
 
+        var timerStudyTime = (todayStudyTime *60 *1000).toLong() //밀리초 변환
+
+        totalTime = timerStudyTime * -1
+        //원래 있던 시간 그대로 반양
+        binding.resultTime.base = elapsedRealtime() - timerStudyTime
 
         //start버튼
         binding.startBtn.setOnClickListener {
@@ -64,18 +81,13 @@ class StudyStopWatch : AppCompatActivity() {
             binding.stopBtn.isEnabled = false
             binding.resetBtn.isEnabled = false
 
-
-
-            val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
-            val date = dateFormat.format(java.util.Date())
-
-
+            val db = openOrCreateDatabase("studydb",Context.MODE_PRIVATE, null)
             val tmpTime = abs(totalTime)
             // totalTime을 시, 분, 초로 변환
             val hours = tmpTime / (1000 * 60 * 60) % 24
             val minutes = tmpTime / (1000 * 60) % 60
             val seconds = (tmpTime / 1000) % 60
-            // 변환된 시간을 HH:mm:ss 형식의 문자열로 포맷
+            // 분
             val realTime =  hours*60.0+ minutes+ seconds/60.0
 
             val cursor = db.rawQuery("Select COUNT(*) FROM STUDY_TB WHERE DATE = ?", arrayOf(date))
