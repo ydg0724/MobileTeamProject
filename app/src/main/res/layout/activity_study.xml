@@ -69,20 +69,22 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
                 android:id="@+id/BtnCollect"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:layout_marginHorizontal="5dp">
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_weight="1"
-                    android:text="스톱\n워치"
-                    android:id="@+id/goToStopwatch"/>
+                    android:text="스톱워치"
+                    android:id="@+id/goToStopwatch"
+                    android:layout_marginHorizontal="5dp"/>
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_weight="1"
                     android:text="공부량"
                     android:id="@+id/goToStatistics"
-                    android:layout_marginHorizontal="10dp"/>
+                    android:layout_marginHorizontal="5dp"/>
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.BarChart
