@@ -5,11 +5,12 @@
     android:orientation="horizontal"
     android:padding="5dp"
     android:layout_margin="5dp">
-    <CheckBox
+    <ImageView
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:id="@+id/todo_check"
-        android:layout_gravity="center_vertical"/>
+        android:src="@drawable/check_mark"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="5dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
