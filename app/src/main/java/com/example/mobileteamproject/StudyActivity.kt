@@ -90,57 +90,7 @@ class StudyActivity : AppCompatActivity() {
             db.close()
         }
 
-//        //study 데이터 생성
-//        val studydb = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
-//
-//        studydb.execSQL("delete from STUDY_TB")  //원래 생성되어있던 데이터 삭제
 
-        /*//데이터 생성
-        binding.tmpData.setOnClickListener {
-            val db = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
-
-            val startDate = LocalDate.of(2024, 1, 1)
-            val endDate = LocalDate.now().plusDays(1)
-            val dateList = mutableListOf<String>()
-            val studyTimeList = mutableListOf<Double>()
-
-
-            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            var currentDate = startDate
-            Log.d("yang","dateFormatBTN : $endDate")
-            while (!currentDate.isAfter(endDate)) {
-                // 날짜 추가
-                dateList.add(currentDate.format(dateFormatter))
-
-                // 임의의 공부 시간 생성 (예: 0~5시간, 0~59분, 0~59초)
-                val hours = Random.nextInt(1, 5)
-                val minutes = Random.nextInt(0, 60)
-                val seconds = Random.nextInt(0, 60)
-                studyTimeList.add(hours * 60.0 + minutes + (seconds/60.0))
-
-                // 다음 날짜로
-                currentDate = currentDate.plusDays(1)
-            }
-                for(i in dateList.indices) {
-                    // ContentValues를 사용하여 데이터 추가
-                    val values = ContentValues().apply {
-                        put("DATE", dateList[i])
-                        put("STUDYTIME", studyTimeList[i])
-                    }
-
-                    // 데이터베이스에 데이터 삽입
-                    db.insert("STUDY_TB", null, values)
-
-                }
-            db.close()
-            }
-        //데이터 삭제
-        binding.deleteData.setOnClickListener {
-            val db = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
-
-            db.execSQL("delete from STUDY_TB")
-            db.close()
-        }*/
 
         val db = openOrCreateDatabase("studydb", MODE_PRIVATE, null)
         //7일간의 데이터 뽑는 쿼리문
