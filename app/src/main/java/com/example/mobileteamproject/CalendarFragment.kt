@@ -1,5 +1,6 @@
 package com.example.mobileteamproject
 
+import android.content.Context
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.google.android.material.datepicker.DayViewDecorator
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,7 +31,9 @@ class CalendarFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_calendar, container, false)
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,6 +47,7 @@ class CalendarFragment : Fragment() {
         deleteBtn = view.findViewById(R.id.deleteBtn)
         diaryContent = view.findViewById(R.id.diaryContent)
 
+
         // CalendarView 날짜 변경 리스너 설정
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val calendar = Calendar.getInstance()
@@ -50,6 +56,7 @@ class CalendarFragment : Fragment() {
             diaryTextView.text = selectedDate
             loadDiary()
         }
+
 
         saveBtn.setOnClickListener {
             saveDiary()
@@ -63,6 +70,8 @@ class CalendarFragment : Fragment() {
         deleteBtn.setOnClickListener {
             deleteDiary()
         }
+
+
     }
 
     private fun loadDiary() {
@@ -110,4 +119,6 @@ class CalendarFragment : Fragment() {
         contextEditText.text.clear()
         loadDiary()
     }
+
+
 }

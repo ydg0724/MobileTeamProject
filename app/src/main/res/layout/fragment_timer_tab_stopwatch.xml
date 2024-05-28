@@ -1,62 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Chronometer
         android:id="@+id/chronometer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:text="00:00" />
-
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="시작"
-        android:layout_below="@id/chronometer"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/stopButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="정지"
-        android:layout_below="@id/startButton"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"
-        android:enabled="false" />
-
-    <Button
-        android:id="@+id/recordButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="기록"
-        android:layout_below="@id/stopButton"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/resetButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="초기화"
-        android:layout_below="@id/recordButton"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
-
-    <ListView
-        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/resetButton"
-        android:layout_marginTop="16dp"
-        android:divider="@null"
-        android:dividerHeight="0dp" />
+        android:gravity="center"
+        android:textSize="60dp"
+        android:layout_marginTop="50dp"/>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:layout_below="@id/chronometer"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="시작" />
+
+        <Button
+            android:id="@+id/stopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:enabled="false"
+            android:text="정지"
+            android:layout_marginHorizontal="30dp"/>
+
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="초기화" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Spinner
+            android:id="@+id/spinnerActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_centerHorizontal="true" />
+
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerActivity"
+            android:layout_marginTop="24dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:hint="몸무게 (kg)"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/etTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="50dp"
+                android:hint="운동 시간 (분)"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnCalculate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear"
+            android:layout_marginTop="24dp"
+            android:text="분당 칼로리 계산"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/tvResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnCalculate"
+            android:layout_marginTop="24dp"
+            android:textSize="18sp"
+            android:text="결과가 여기에 표시됩니다"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

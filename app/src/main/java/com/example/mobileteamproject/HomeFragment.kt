@@ -26,6 +26,13 @@ class HomeFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
+        val memoText1 = "모바일 프로그래밍 발표"
+        val date1 = "2024-05-30"
+        val memoText2 = "모바일 프로그래밍 시험"
+        val date2 = "2024-06-14"
+        val dbHelper = MemoDatabaseHelper(requireContext())
+        dbHelper.addOrUpdateMemo(date2, memoText2)
+        dbHelper.addOrUpdateMemo(date1, memoText1)
 
         loadMemos()
     }
