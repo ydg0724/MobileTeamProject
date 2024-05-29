@@ -141,13 +141,20 @@ class StudyActivity : AppCompatActivity() {
         while (todayCursor.moveToNext())
             studyTimes.add(todayCursor.getDouble(todayCursor.getColumnIndexOrThrow("STUDYTIME")))
 
-        val yesterdayMinutes = yesterdayTime[0].toInt()
-        binding.yesterdayTime.text = "${yesterdayMinutes/60}시간 ${yesterdayMinutes%60}분"
-        val todayMinutes = studyTimes[0].toInt()
-        binding.todayTime.text = "${todayMinutes/60}시간 ${todayMinutes%60}분"
-        Log.d("yang", "today : ${studyTimes[0]}")
-        todayCursor.close()
 
+        if(yesterdayTime.isNotEmpty()) {
+            val yesterdayMinutes = yesterdayTime[0].toInt()
+            binding.yesterdayTime.text = "${yesterdayMinutes / 60}시간 ${yesterdayMinutes % 60}분"
+        }else 
+            binding.yesterdayTime.text = "0시간"
+        
+        if (studyTimes.isNotEmpty()){
+            val todayMinutes = studyTimes[0].toInt()
+            binding.todayTime.text = "${todayMinutes / 60}시간 ${todayMinutes % 60}분"
+        }else
+            binding.todayTime.text = "0시간"
+
+        todayCursor.close()
         initBarChart(binding.studyWeekTime) //그래프 기본설정
         setupChart(binding.studyWeekTime,dateList,studyTimeList)   //그래프 데이터세팅
     }
