@@ -26,11 +26,17 @@ class HomeFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        val memoText1 = "모바일 프로그래밍 발표"
+        val memoText1 = "등 + 이두 운동"
         val date1 = "2024-05-30"
-        val memoText2 = "모바일 프로그래밍 시험"
-        val date2 = "2024-06-14"
+        val memoText2 = "가슴 + 삼두 운동"
+        val date2 = "2024-05-31"
+        val memoText3 = "하체 + 어깨 운동"
+        val date3 = "2024-06-01"
+        val memoText4 = "3대 측정"
+        val date4 = "2024-06-14"
         val dbHelper = MemoDatabaseHelper(requireContext())
+        dbHelper.addOrUpdateMemo(date4, memoText4)
+        dbHelper.addOrUpdateMemo(date3, memoText3)
         dbHelper.addOrUpdateMemo(date2, memoText2)
         dbHelper.addOrUpdateMemo(date1, memoText1)
 
@@ -39,7 +45,10 @@ class HomeFragment : Fragment() {
 
     private fun loadMemos() {
         val dbHelper = MemoDatabaseHelper(requireContext())
-        val memos = dbHelper.getAllMemos()
+        val today = dbHelper.getTodayDate()
+        val oneMonthAgo = dbHelper.getDateStringFromToday(-30)
+        val oneMonthLater = dbHelper.getDateStringFromToday(30)
+        val memos = dbHelper.getMemosInRange(oneMonthAgo, oneMonthLater)
         memoAdapter = MemoAdapter(memos)
         recyclerView.adapter = memoAdapter
     }
