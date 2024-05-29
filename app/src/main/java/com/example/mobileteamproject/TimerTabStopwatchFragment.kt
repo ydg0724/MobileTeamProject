@@ -126,25 +126,25 @@ class TimerTabStopwatchFragment : Fragment() {
 
         tvResult.text = "소모된 칼로리: $caloriesBurned kcal"
     }
-    private fun calculateCaloriesRunning(weight: Double, time: Int): Double {
+    private fun calculateCaloriesRunning(weight: Double, time: Int): Int {
         val MET = 8.0 // 달리기의 대사적 동등량
         val caloriesPerKgPerHour = MET * weight / 4 // 시간당 체중당 소모 칼로리
         val hours = time.toDouble() / 60 // 시간을 분 단위에서 시간 단위로 변환
-        return caloriesPerKgPerHour * hours
+        return calculateCalories(caloriesPerKgPerHour, hours)
     }
 
-    private fun calculateCaloriesCycling(weight: Double, time: Int): Double {
+    private fun calculateCaloriesCycling(weight: Double, time: Int): Int {
         val MET = 6.0 // 자전거의 대사적 동등량
         val caloriesPerKgPerHour = MET * weight /2 // 시간당 체중당 소모 칼로리
         val hours = time.toDouble() / 60 // 시간을 분 단위에서 시간 단위로 변환
-        return caloriesPerKgPerHour * hours
+        return calculateCalories(caloriesPerKgPerHour, hours)
     }
 
-    private fun calculateCaloriesWalking(weight: Double, time: Int): Double {
+    private fun calculateCaloriesWalking(weight: Double, time: Int): Int {
         val MET = 3.0 // 걷기의 대사적 동등량
         val caloriesPerKgPerHour = MET * weight/3 // 시간당 체중당 소모 칼로리
         val hours = time.toDouble() / 60 // 시간을 분 단위에서 시간 단위로 변환
-        return caloriesPerKgPerHour * hours
+        return calculateCalories(caloriesPerKgPerHour, hours)
     }
     fun calculateCalories(caloriesPerKgPerHour: Double, hours: Double): Int {
         val result = (caloriesPerKgPerHour * hours).toInt()
